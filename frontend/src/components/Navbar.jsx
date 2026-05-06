@@ -10,10 +10,13 @@ const Navbar = () => {
           <span className="logo-sub">SALES</span>
         </div>
 
-      <Link to="/login">Login</Link>
+      <nav className="crm-nav">
       <Link to="/dashboard">Dashboard</Link>
       <Link to="/leads">Leads</Link>
+      <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
+      </nav>
+
     </nav>
   );
 };

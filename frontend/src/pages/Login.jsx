@@ -44,9 +44,7 @@ const Login = () => {
       <div className="login-card">
         <div className="login-header">
             <p>WELCOME BACK</p>  
-            <h2 className="text-2xl font-semibold text-ayur-textDark">
-            Login to your account
-          </h2>
+            <h2>Login to your account</h2>
             <h3>Enter your credentials to access your account.</h3>
         </div>  
 

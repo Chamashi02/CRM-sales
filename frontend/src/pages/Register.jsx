@@ -40,9 +40,7 @@ const Register = () => {
       <div className="register-card">
         <div className="login-header">
             <p>CREATE AN ACCOUNT</p>  
-            <h2 className="text-2xl font-semibold text-ayur-textDark">
-            Join with CRM-sales
-          </h2>
+            <h2>Join with CRM-sales</h2>
             <h3>Fill in the details to create your account.</h3>
         </div>  
 

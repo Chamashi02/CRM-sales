@@ -1,43 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const Lead = require("../models/lead");
+const Lead = require("../models/Lead");
 
-
-// ➤ CREATE lead
-router.post("/", async (req, res) => {
-  try {
-    const lead = new Lead(req.body);
-    await lead.save();
-    res.json(lead);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-
-// ➤ GET all leads
 router.get("/", async (req, res) => {
   try {
-    const leads = await Lead.find();
+    const leads = await Lead.find().sort({ createdAt: -1 });
     res.json(leads);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-
-// ➤ GET single lead
-router.get("/:id", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const lead = await Lead.findById(req.params.id);
-    res.json(lead);
+    const newLead = new Lead(req.body);
+    const savedLead = await newLead.save();
+    res.json(savedLead);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-
-// ➤ UPDATE lead
 router.put("/:id", async (req, res) => {
   try {
     const updated = await Lead.findByIdAndUpdate(
@@ -51,8 +34,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
-// ➤ DELETE lead
 router.delete("/:id", async (req, res) => {
   try {
     await Lead.findByIdAndDelete(req.params.id);
@@ -62,13 +43,25 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.patch("/:id/status", async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.id);
+    lead.status = req.body.status;
+    await lead.save();
+    res.json(lead);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-// ➤ ADD NOTE
 router.post("/:id/notes", async (req, res) => {
   try {
     const lead = await Lead.findById(req.params.id);
 
-    lead.notes.push(req.body);
+    lead.notes.push({
+      content: req.body.content,
+      createdBy: req.body.createdBy
+    });
 
     await lead.save();
     res.json(lead);

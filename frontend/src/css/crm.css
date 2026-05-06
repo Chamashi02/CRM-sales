@@ -46,13 +46,13 @@ body {
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: 17px;
+  font-size: 20px;
   letter-spacing: 2px;
 }
 
 .crm-logo-text .logo-sub {
   color: #94b4e8;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -80,6 +80,69 @@ body {
   color: white;
 }
 
+/*Footer*/
+
+.crm-footer {
+  background: var(--navy);
+  padding: 28px 40px;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-contact {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.footer-contact a {
+  color: #94b4e8;
+  text-decoration: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s;
+}
+
+.footer-contact a:hover { color: white; }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-bottom p {
+  color: #6a86b8;
+  font-size: 11px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 18px;
+}
+
+.footer-links a {
+  color: #6a86b8;
+  text-decoration: none;
+  font-size: 11px;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #94b4e8; }
+
 /*Login*/
 
 .login-main {
@@ -87,7 +150,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: var(--light-bg);
-  max-height: 100vh;
+  height: 75vh;
 }
 
 .login-card {
@@ -205,12 +268,14 @@ body {
   text-decoration: underline;
 }
 
+/*Register*/
+
 .register-main {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--light-bg);
-  height: 100vh;
+  height: 90vh;
 }
 
 .register-card {
@@ -270,3 +335,73 @@ body {
 .crm-dashboard {
   padding: 20px;
 }
+
+.crm-dashboard h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.crm-dashboard .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.crm-dashboard .grid-item {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.crm-dashboard .grid-item:hover {
+  background: var(--navy-hover);
+}
+
+.crm-dashboard .grid-item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.crm-dashboard .grid-data {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/*Leads*/
+
+.crm-leads {
+  padding: 20px;
+}
+
+.crm-leads h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.crm-leads .lead-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.crm-leads .lead-item {
+  background: var(--white);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.crm-leads .lead-item h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.crm-leads .lead-item p {
+  font-size: 14px;
+  color: var(--muted);
+}
+

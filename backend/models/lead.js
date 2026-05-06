@@ -1,28 +1,36 @@
 const mongoose = require("mongoose");
 
+const noteSchema = new mongoose.Schema({
+  content: String,
+  createdBy: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
 const leadSchema = new mongoose.Schema(
   {
     leadName: String,
     companyName: String,
     email: String,
-    phoneNumber: String,
-    leadSource: String,
-    assignedSalesperson: String,
+    phone: String,
+    source: String,
+
+    assignedTo: String,
+
     status: {
       type: String,
-      default: "New",
+      enum: ["New", "Contacted", "Qualified", "Proposal Sent", "Won", "Lost"],
+      default: "New"
     },
-    dealValue: Number,
-    notes: [
-      {
-        content: String,
-        createdBy: String,
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+
+    dealValue: {
+      type: Number,
+      default: 0
+    },
+
+    notes: [noteSchema]
   },
   { timestamps: true }
 );
