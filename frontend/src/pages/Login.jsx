@@ -34,8 +34,7 @@ const Login = () => {
 
     console.log(res.data);
 
-    // optional redirect later
-    // window.location.href = "/dashboard";
+    navigate("/dashboard");
 
   } catch (err) {
     alert(err.response?.data?.message || "Login failed");

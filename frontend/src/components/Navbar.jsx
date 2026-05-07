@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/crm.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <nav className="crm-nav-bar">
         <div className="crm-logo-text">
@@ -15,6 +22,11 @@ const Navbar = () => {
       <Link to="/leads">Leads</Link>
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
+
+      <button className="logout-btn" onClick={logout}>
+        Logout
+      </button>
+      
       </nav>
 
     </nav>

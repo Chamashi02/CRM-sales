@@ -18,7 +18,7 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
   if (form.password !== form.confirmPassword) {
     alert("Passwords do not match");
