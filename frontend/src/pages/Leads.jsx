@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 import "../css/crm.css";
 
 function Leads() {
   const [leads, setLeads] = useState([]);
   const [showForm, setShowForm] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  const navigate = useNavigate();
 
   const [newLead, setNewLead] = useState({
     leadName: "",
@@ -30,125 +35,138 @@ function Leads() {
   };
 
   const handleNewLeadChange = (e) => {
-    setNewLead({
-      ...newLead,
-      [e.target.name]: e.target.value
-    });
+    setNewLead({ ...newLead, [e.target.name]: e.target.value });
   };
 
   const createLead = async () => {
-    try {
-      await API.post("/leads", {
-        ...newLead,
-        dealValue: Number(newLead.dealValue) || 0
-      });
+    await API.post("/leads", {
+      ...newLead,
+      dealValue: Number(newLead.dealValue) || 0
+    });
 
-      setShowForm(false);
+    setShowForm(false);
+    setNewLead({
+      leadName: "",
+      companyName: "",
+      email: "",
+      phone: "",
+      source: "",
+      assignedTo: "",
+      dealValue: ""
+    });
 
-      setNewLead({
-        leadName: "",
-        companyName: "",
-        email: "",
-        phone: "",
-        source: "",
-        assignedTo: "",
-        dealValue: ""
-      });
-
-      fetchLeads();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to create lead");
-    }
+    fetchLeads();
   };
+
+  const filteredLeads = leads.filter((lead) => {
+    const matchesSearch =
+      lead.leadName?.toLowerCase().includes(search.toLowerCase()) ||
+      lead.companyName?.toLowerCase().includes(search.toLowerCase()) ||
+      lead.email?.toLowerCase().includes(search.toLowerCase());
+
+    const matchesStatus = statusFilter ? lead.status === statusFilter : true;
+
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <main className="leads-main">
-    <div className="crm-leads">
-      <h2>Leads</h2>
+      <div className="crm-leads">
+        <h2>Leads</h2>
 
-      <button className="btn" onClick={() => setShowForm(true)}>
-        New Lead
-      </button>
+        <div className="leads-actions">
+          <button className="btn" onClick={() => setShowForm(true)}>
+            New Lead
+          </button>
 
-      {showForm && (
-        <div className="lead-form">
-            <input className="fields" name="leadName" placeholder="Lead Name" value={newLead.leadName} onChange={handleNewLeadChange} />
-            <input className="fields" name="companyName" placeholder="Company" value={newLead.companyName} onChange={handleNewLeadChange} />
-            <input className="fields" name="email" placeholder="Email" value={newLead.email} onChange={handleNewLeadChange} />
-            <input className="fields" name="phone" placeholder="Phone" value={newLead.phone} onChange={handleNewLeadChange} />
-            <input className="fields" name="source" placeholder="Source" value={newLead.source} onChange={handleNewLeadChange} />
-            <input className="fields" name="assignedTo" placeholder="Salesperson" value={newLead.assignedTo} onChange={handleNewLeadChange} />
-            <input className="fields" type="number" name="dealValue" placeholder="Deal Value" value={newLead.dealValue} onChange={handleNewLeadChange} />
+          <input
+            placeholder="Search leads..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-            <button className="btn" onClick={createLead}>
-              Save Lead
-            </button>
-            <button className="btn" onClick={() => setShowForm(false)}>
-              Cancel
-            </button>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="">All Status</option>
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Qualified</option>
+            <option>Proposal Sent</option>
+            <option>Won</option>
+            <option>Lost</option>
+          </select>
         </div>
-      )}
 
-      
-      {leads.map(lead => (
-        <div className="lead-item" key={lead._id}>
-
-            <h3>{lead.leadName}</h3>
-            <p>{lead.companyName}</p>
-            <p>{lead.email}</p>
-            <p>{lead.phone}</p>
-            <p>Assigned: {lead.assignedTo}</p>
-            <p>Value: Rs. {lead.dealValue}</p>
-
-    
-        <select
-            className="status"
-            value={lead.status}
-            onChange={(e) =>
-            API.patch(`/leads/${lead._id}/status`, {
-            status: e.target.value
-            }).then(fetchLeads)
-            }
-        >
-
-        <option>New</option>
-        <option>Contacted</option>
-        <option>Qualified</option>
-        <option>Proposal Sent</option>
-        <option>Won</option>
-        <option>Lost</option>
-        </select>
-
-        <button className="btn"
-            onClick={() => {
-            const note = prompt("Enter note");
-            if (!note) return;
-
-            API.post(`/leads/${lead._id}/notes`, {
-            content: note,
-            createdBy: "Admin"
-            }).then(fetchLeads);
-            }}
-        >
-        Add Note
-        </button>
-
-        <ul>
-            {lead.notes?.map((n, i) => (
-            <li key={i}>
-            {n.content} ({n.createdBy})
-            </li>
+        {showForm && (
+          <div className="lead-form">
+            {Object.keys(newLead).map((key) => (
+              <input
+                key={key}
+                name={key}
+                placeholder={key}
+                value={newLead[key]}
+                onChange={handleNewLeadChange}
+              />
             ))}
-        </ul>
 
-        <button className="btn" onClick={() => deleteLead(lead._id)}>
-        Delete
-        </button>
+            <button className="btn" onClick={createLead}>Save</button>
+            <button className="btn" onClick={() => setShowForm(false)}>Cancel</button>
+          </div>
+        )}
 
-        </div>
-    ))}
-    </div>
+        <table className="leads-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Assigned</th>
+              <th>Value</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredLeads.map((lead) => (
+              <tr
+                key={lead._id}
+                className="leads-row"
+                onClick={() => navigate(`/leads/${lead._id}`)}
+              >
+                <td>{lead.leadName}</td>
+                <td>{lead.companyName}</td>
+                <td>{lead.email}</td>
+                <td>{lead.phone}</td>
+                <td>{lead.assignedTo}</td>
+                <td>Rs. {lead.dealValue}</td>
+
+                <td>
+                  <span className={`status-badge status-${lead.status?.toLowerCase().replace(" ", "-")}`}>
+                    {lead.status}
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    className="btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteLead(lead._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </div>
     </main>
   );
 }

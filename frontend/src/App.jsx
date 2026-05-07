@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Leads from "./pages/Leads";
 import Register from "./pages/Register";
+import LeadDetails from "./pages/LeadDetails";
+
 
 function App() {
   const token = localStorage.getItem("token");
@@ -25,21 +27,29 @@ function App() {
                 <Dashboard />
               </ProtectedRoute>
             }
-          />  
+          />
 
-      <Route
-        path="/leads"
-        element={
-          <ProtectedRoute>
-            <Leads />
-          </ProtectedRoute>
-        }
-      />
+          <Route
+            path="/leads"
+            element={
+              <ProtectedRoute>
+                <Leads />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/leads/:id"
+            element={
+              <ProtectedRoute>
+                <LeadDetails />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 
       <Footer />
-    
+
     </div>
   );
 }

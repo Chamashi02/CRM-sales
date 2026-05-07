@@ -29,7 +29,21 @@ const leadSchema = new mongoose.Schema(
       default: 0
     },
 
-    notes: [noteSchema]
+    activity: [
+  {
+    type: {
+      type: String,
+      enum: ["note", "status", "system"],
+          default: "note"
+    },
+    content: String,
+    createdBy: String,
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }
+]
   },
   { timestamps: true }
 );

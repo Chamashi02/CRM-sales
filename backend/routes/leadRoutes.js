@@ -11,6 +11,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.id);
+    res.json(lead);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const newLead = new Lead(req.body);
@@ -44,23 +53,31 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.patch("/:id/status", async (req, res) => {
-  try {
-    const lead = await Lead.findById(req.params.id);
-    lead.status = req.body.status;
-    await lead.save();
-    res.json(lead);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  const lead = await Lead.findById(req.params.id);
+
+  const oldStatus = lead.status;
+  lead.status = req.body.status;
+
+  lead.activity.push({
+    type: "status",
+    content: `${oldStatus} → ${req.body.status}`,
+    createdBy: "Admin",
+    createdAt: new Date()
+  });
+
+  await lead.save();
+  res.json(lead);
 });
 
-router.post("/:id/notes", async (req, res) => {
+router.post("/:id/activity", async (req, res) => {
   try {
     const lead = await Lead.findById(req.params.id);
 
-    lead.notes.push({
+    lead.activity.push({
+      type: req.body.type || "note",
       content: req.body.content,
-      createdBy: req.body.createdBy
+      createdBy: req.body.createdBy,
+      createdAt: new Date()
     });
 
     await lead.save();

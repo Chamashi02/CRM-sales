@@ -399,6 +399,7 @@ body {
 
 .crm-dashboard {
   padding: 20px;
+  height: 550px;
 }
 
 .crm-dashboard h1 {
@@ -437,77 +438,284 @@ body {
 /*Leads*/
 
 .leads-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--light-bg);
-  min-height: 80vh;
-}
-
-.crm-leads {
-  padding: 20px;
-  width: 100%;
+  padding: 24px;
+  height: 550px;
 }
 
 .crm-leads h2 {
-  font-size: 30px;
-  color: var(--navy);
-  font-weight: 700;
-  margin-bottom: 20px;
-  font-family: 'Montserrat', sans-serif;
-  text-align: center;
-  
+  margin-bottom: 16px;
 }
 
-.crm-leads .btn {
-  background: var(--navy);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-
-.crm-leads .lead-form {
+.leads-actions {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.leads-actions .btn:first-child {
+  margin-right: auto;
+}
+
+.lead-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.lead-form input {
+  width: 100%;
+  min-width: 0;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.leads-table th {
+  background: #1a3a8f;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.leads-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.leads-table tr:hover {
+  background: #eef2ff;
+  cursor: pointer;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: white;
+}
+
+.status-new { background: #6b7280; }
+.status-contacted { background: #2563eb; }
+.status-qualified { background: #f59e0b; }
+.status-proposal-sent { background: #7c3aed; }
+.status-won { background: #16a34a; }
+.status-lost { background: #dc2626; }
+
+.btn {
+  background: #0b1f4b;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #1a3a8f;
+}
+
+/*Lead Details*/
+
+.lead-page {
+  padding: 24px;
+  background: #f4f7fb;
+  min-height: 100vh;
+}
+
+.lead-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   margin-bottom: 20px;
 }
 
-.crm-leads .lead-form .fields {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 150px;
+.lead-header h2 {
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.crm-leads .lead-item {
-  background: var(--white);
-  padding: 15px;
+.lead-header select {
+  padding: 8px 12px;
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  background: white;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-.crm-leads .lead-item h3 {
-  font-size: 18px;
-  margin-bottom: 5px;
+.lead-body {
+  display: flex;
+  gap: 20px;
 }
 
-.crm-leads .lead-item p {
+.lead-left,
+.lead-right {
+  flex: 1;
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.lead-left h3,
+.lead-right h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.detail-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-box p {
   font-size: 14px;
-  color: var(--muted);
+  color: #4b5563;
 }
 
-.crm-leads .lead-item select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 15px;
-  display: inline-block;
-  margin-top: 10px;
-  margin-right: 10px;
+.detail-box b {
+  color: #111827;
+}
+
+.lead-left input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.lead-left input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+}
+
+.activity-box {
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 5px;
+}
+
+.activity-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.activity-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.activity-type {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: white;
+  margin-right: 6px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.activity-type.note { background: #2563eb; }
+.activity-type.status { background: #f59e0b; }
+.activity-type.system { background: #6b7280; }
+
+.activity-item p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.activity-item small {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  height: 80px;
+  outline: none;
+  transition: 0.2s;
+}
+
+textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+}
+
+@media (max-width: 900px) {
+  .lead-body {
+    flex-direction: column;
+  }
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+}
+
+.status-new { background: #6b7280; }
+.status-contacted { background: #2563eb; }
+.status-qualified { background: #f59e0b; }
+.status-proposal { background: #7c3aed; }
+.status-won { background: #16a34a; }
+.status-lost { background: #dc2626; }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  width: 500px;
+  padding: 20px;
+  border-radius: 10px;
 }
