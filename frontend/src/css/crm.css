@@ -146,20 +146,45 @@ body {
 /*Login*/
 
 .login-main {
+  position: relative;
+  height: 550px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--light-bg);
-  height: 75vh;
+}
+
+.login-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0b1f4b 0%, #1a3a8f 40%, #2563eb 100%);
+}
+
+.login-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px);
+}
+
+.login-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: url('../images/login.jpg') center / cover;
+  opacity: 0.75;
 }
 
 .login-card {
+  position: relative;
+  z-index: 5;
   background: var(--white);
-  padding: 40px 30px;
+  padding: 40px 60px;
   border-radius: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
   width: max-content;
-  height: 480px;
+  height: 450px;
 }
 
 .login-header p{
@@ -237,15 +262,6 @@ body {
   background: var(--navy-hover);
 }
 
-.login-form .btn-forgotpw {
-  text-align: right;
-  cursor: pointer;
-  color: var(--navy);
-  font-size: 11px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
 .signup-link {
   text-align: center;
   margin-top: 20px;
@@ -271,18 +287,43 @@ body {
 /*Register*/
 
 .register-main {
+  position: relative;
+  height: 700px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--light-bg);
-  height: 90vh;
+}
+
+.register-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0b1f4b 0%, #1a3a8f 40%, #2563eb 100%);
+}
+
+.register-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px);
+}
+
+.register-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: url('../images/register.webp') center / cover;
+  opacity: 0.75;
 }
 
 .register-card {
+  position: relative;
+  z-index: 5;
   background: var(--white);
   padding: 40px 30px;
   border-radius: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
   width: max-content;
   height: 650px;
   width: 450px;
@@ -371,20 +412,52 @@ body {
 
 /*Leads*/
 
+.leads-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-bg);
+  min-height: 80vh;
+}
+
 .crm-leads {
   padding: 20px;
+  width: 100%;
 }
 
 .crm-leads h2 {
-  font-size: 24px;
+  font-size: 30px;
+  color: var(--navy);
   font-weight: 700;
   margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  
+}
+
+.crm-leads .btn {
+  background: var(--navy);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .crm-leads .lead-form {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+.crm-leads .lead-form .fields {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 150px;
 }
 
 .crm-leads .lead-item {
@@ -405,3 +478,12 @@ body {
   color: var(--muted);
 }
 
+.crm-leads .lead-item select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 10px;
+}

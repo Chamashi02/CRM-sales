@@ -16,7 +16,6 @@ const leadSchema = new mongoose.Schema(
     email: String,
     phone: String,
     source: String,
-
     assignedTo: String,
 
     status: {

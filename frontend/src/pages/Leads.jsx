@@ -16,7 +16,6 @@ function Leads() {
     dealValue: ""
   });
 
-  // ✅ FETCH
   const fetchLeads = () => {
     API.get("/leads").then(res => setLeads(res.data));
   };
@@ -25,12 +24,10 @@ function Leads() {
     fetchLeads();
   }, []);
 
-  // ✅ DELETE
   const deleteLead = (id) => {
     API.delete(`/leads/${id}`).then(fetchLeads);
   };
 
-  // ✅ HANDLE INPUT
   const handleNewLeadChange = (e) => {
     setNewLead({
       ...newLead,
@@ -38,10 +35,12 @@ function Leads() {
     });
   };
 
-  // ✅ CREATE LEAD (THIS IS WHAT YOU'RE MISSING)
   const createLead = async () => {
     try {
-      await API.post("/leads", newLead);
+      await API.post("/leads", {
+        ...newLead,
+        dealValue: Number(newLead.dealValue) || 0
+      });
 
       setShowForm(false);
 
@@ -62,33 +61,94 @@ function Leads() {
     }
   };
 
-  // 🔴 RETURN MUST COME AFTER ALL FUNCTIONS
   return (
+    <main className="leads-main">
     <div className="crm-leads">
       <h2>Leads</h2>
 
-      <button onClick={() => setShowForm(true)}>New Lead</button>
+      <button className="btn" onClick={() => setShowForm(true)}>
+        New Lead
+      </button>
 
-      {/* FORM */}
       {showForm && (
         <div className="lead-form">
-          <input name="leadName" placeholder="Lead Name" value={newLead.leadName} onChange={handleNewLeadChange} />
-          <input name="companyName" placeholder="Company" value={newLead.companyName} onChange={handleNewLeadChange} />
-          <input name="email" placeholder="Email" value={newLead.email} onChange={handleNewLeadChange} />
+            <input className="fields" name="leadName" placeholder="Lead Name" value={newLead.leadName} onChange={handleNewLeadChange} />
+            <input className="fields" name="companyName" placeholder="Company" value={newLead.companyName} onChange={handleNewLeadChange} />
+            <input className="fields" name="email" placeholder="Email" value={newLead.email} onChange={handleNewLeadChange} />
+            <input className="fields" name="phone" placeholder="Phone" value={newLead.phone} onChange={handleNewLeadChange} />
+            <input className="fields" name="source" placeholder="Source" value={newLead.source} onChange={handleNewLeadChange} />
+            <input className="fields" name="assignedTo" placeholder="Salesperson" value={newLead.assignedTo} onChange={handleNewLeadChange} />
+            <input className="fields" type="number" name="dealValue" placeholder="Deal Value" value={newLead.dealValue} onChange={handleNewLeadChange} />
 
-          <button onClick={createLead}>Save Lead</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
+            <button className="btn" onClick={createLead}>
+              Save Lead
+            </button>
+            <button className="btn" onClick={() => setShowForm(false)}>
+              Cancel
+            </button>
         </div>
       )}
 
-      {/* LIST */}
+      
       {leads.map(lead => (
-        <div key={lead._id}>
-          <h3>{lead.leadName}</h3>
-          <button onClick={() => deleteLead(lead._id)}>Delete</button>
+        <div className="lead-item" key={lead._id}>
+
+            <h3>{lead.leadName}</h3>
+            <p>{lead.companyName}</p>
+            <p>{lead.email}</p>
+            <p>{lead.phone}</p>
+            <p>Assigned: {lead.assignedTo}</p>
+            <p>Value: Rs. {lead.dealValue}</p>
+
+    
+        <select
+            className="status"
+            value={lead.status}
+            onChange={(e) =>
+            API.patch(`/leads/${lead._id}/status`, {
+            status: e.target.value
+            }).then(fetchLeads)
+            }
+        >
+
+        <option>New</option>
+        <option>Contacted</option>
+        <option>Qualified</option>
+        <option>Proposal Sent</option>
+        <option>Won</option>
+        <option>Lost</option>
+        </select>
+
+        <button className="btn"
+            onClick={() => {
+            const note = prompt("Enter note");
+            if (!note) return;
+
+            API.post(`/leads/${lead._id}/notes`, {
+            content: note,
+            createdBy: "Admin"
+            }).then(fetchLeads);
+            }}
+        >
+        Add Note
+        </button>
+
+        <ul>
+            {lead.notes?.map((n, i) => (
+            <li key={i}>
+            {n.content} ({n.createdBy})
+            </li>
+            ))}
+        </ul>
+
+        <button className="btn" onClick={() => deleteLead(lead._id)}>
+        Delete
+        </button>
+
         </div>
-      ))}
+    ))}
     </div>
+    </main>
   );
 }
 

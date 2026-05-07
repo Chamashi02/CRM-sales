@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "../css/crm.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -37,6 +40,9 @@ const Register = () => {
 
     return (
     <main className="register-main">
+      <div className="register-bg" />
+      <div className="register-pattern" />
+      <div className="register-image-overlay" />
       <div className="register-card">
         <div className="login-header">
             <p>CREATE AN ACCOUNT</p>  
@@ -67,7 +73,9 @@ const Register = () => {
 
         <div className="signup-link">
           Already have an account?{" "}
-          <span className="signup-btn">
+          <span className="signup-btn"
+            onClick={() => navigate("/login")}
+          >
             Login
           </span>
         </div>
